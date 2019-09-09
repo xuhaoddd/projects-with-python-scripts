@@ -1,3 +1,4 @@
+#detect vibration in the camera and output the waveform
 import cv2
 import time
 import csv
