@@ -112,6 +112,101 @@ cv2.imshow('black with line',img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
+#mouse events cv2.setMouseCallback()
+    #print mouse events
+events=[i for i in dir(cv2) if 'EVENT'in i]
+print(events)
+
+    #double click paint circle
+def draw_circle(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONDBLCLK:
+        cv2.circle(img, (x, y), 100, (255, 0, 0), -1)
+        #创建图像与窗口并将窗口与回调函数绑定
+img = np.zeros((500, 500, 3), np.uint8)
+cv2.namedWindow('image')
+cv2.setMouseCallback('image', draw_circle)
+while (1):
+    cv2.imshow('image', img)
+    if cv2.waitKey(1)&0xFF == ord('q'):
+        break
+cv2.destroyAllWindows()
+
+        #paint rectangle and circle with mouse
+drawing=False
+mode=True
+ix,iy=-1,-1
+def draw_circle(event,x,y,flags,param):
+    global ix,iy,drawing,mode
+    if event==cv2.EVENT_LBUTTONDOWN:
+        drawing=True
+        ix,iy=x,y
+    elif event==cv2.EVENT_MOUSEMOVE and flags==cv2.EVENT_FLAG_LBUTTON:
+        if drawing==True:
+            if mode==True:
+                cv2.rectangle(img,(ix,iy),(x,y),(0,255,0),-1)
+            else:
+                        #cv2.circle(img,(x,y),3,(0,0,255),-1)
+                r=int(np.sqrt((x-ix)**2+(y-iy)**2))
+                cv2.circle(img,(x,y),r,(0,0,255),-1)
+    elif event==cv2.EVENT_LBUTTONUP:
+        drawing==False
+# if mode==True:
+# cv2.rectangle(img,(ix,iy),(x,y),(0,255,0),-1)
+# else:
+# cv2.circle(img,(x,y),5,(0,0,255),-1)
+
+img=np.zeros((512,512,3),np.uint8)
+cv2.namedWindow('image')
+cv2.setMouseCallback('image',draw_circle)
+while(1):
+    cv2.imshow('image',img)
+    k=cv2.waitKey(1)
+    if k==ord('m'):
+        mode=not mode
+    elif k==27:
+        break
+cv2.destroyAllWindows()
+
+
+#slider 
+def nothing(x):
+    pass
+#创建一个黑色图像
+img = np.zeros((300,512,3),np.uint8)
+cv2.namedWindow('image')
+
+cv2.createTrackbar('B','image',0,255,nothing)
+cv2.createTrackbar('G','image',0,255,nothing)
+cv2.createTrackbar('R','image',0,255,nothing)
+
+switch = '0:OFF\n1:ON'
+cv2.createTrackbar(switch,'image',0,1,nothing)
+
+while(1):
+    cv2.imshow('image',img)
+    k=cv2.waitKey(1)
+    if k == ord('q'):#按q键退出
+        break
+
+    b = cv2.getTrackbarPos('B','image')
+    g = cv2.getTrackbarPos('G', 'image')
+    r = cv2.getTrackbarPos('R', 'image')
+    s = cv2.getTrackbarPos(switch, 'image')
+
+    if s == 0:
+        img[:]=0
+    else:
+        img[:]=[b,g,r]
+cv2.destroyAllWindows()
+
+
+
+
+
+
+
+
+
 
 #mouse event  cv2.setMouseCallback()
 
