@@ -1,2 +1,2 @@
 # projects with python scripts
-there are some python scripts in this folder
+This is a repository of python scripts completed in daily study, projects or internship
